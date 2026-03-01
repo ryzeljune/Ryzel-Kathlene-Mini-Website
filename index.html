@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Website Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300;1,600&family=Nunito:wght@300;400;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blush: #f7e0e0;
+      --lilac: #e8e0f5;
+      --mint: #daf0ea;
+      --butter: #fdf4d3;
+      --sky: #deeef8;
+      --rose: #e8607a;
+      --violet: #7c5cbf;
+      --teal: #3aab8c;
+      --text: #3a2e4a;
+      --muted: #9a8eaa;
+      --white: #fffdf9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--butter);
+      color: var(--text);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* DOODLE DOTS BG */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: radial-gradient(circle, rgba(232,96,122,.12) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3.5rem;
+      background: var(--white);
+      border-bottom: 2.5px dashed #e8d0e0;
+    }
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem; font-weight: 600;
+      color: var(--rose);
+      letter-spacing: -.02em;
+    }
+    .nav-logo span {
+      font-style: italic; color: var(--violet);
+    }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Nunito', sans-serif;
+      color: var(--muted); text-decoration: none;
+      font-size: .9rem; font-weight: 700; letter-spacing: .03em;
+      padding: .4rem .9rem; border-radius: 100px;
+      transition: all .22s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--blush); color: var(--rose);
+    }
+    .nav-deco {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem; color: var(--teal);
+      transform: rotate(-3deg);
+      display: inline-block;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 88vh;
+      padding: 4rem 4rem 4rem 5rem;
+      gap: 3rem;
+      align-items: center;
+    }
+    .hero-text { animation: popUp .7s cubic-bezier(.34,1.56,.64,1) both; }
+
+    .sticker {
+      display: inline-block;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      background: var(--butter);
+      color: var(--violet);
+      border: 2px solid var(--violet);
+      padding: .3rem 1rem;
+      border-radius: 100px;
+      transform: rotate(-2deg);
+      margin-bottom: 1.5rem;
+      box-shadow: 3px 3px 0 var(--violet);
+    }
+
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--rose);
+      background: linear-gradient(180deg, transparent 60%, rgba(232,96,122,.2) 60%);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.85;
+      color: var(--muted); max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-soft {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: .9rem;
+      color: var(--white); text-decoration: none;
+      background: var(--rose);
+      padding: .9rem 2.2rem;
+      border-radius: 100px;
+      box-shadow: 4px 4px 0 #c0405a;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-soft:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #c0405a; }
+
+    /* PHOTO COLLAGE */
+    .hero-visual {
+      position: relative;
+      animation: popUp .7s .15s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .photo-card {
+      position: relative;
+      background: var(--white);
+      padding: 1rem 1rem .5rem;
+      box-shadow: 6px 6px 20px rgba(60,40,80,.12);
+      border-radius: 4px;
+      max-width: 360px; margin: 0 auto;
+    }
+    .photo-card img {
+      width: 100%; height: 380px; object-fit: cover;
+      border-radius: 2px;
+      transition: transform .3s;
+    }
+    .photo-card:hover img { transform: scale(1.02); }
+    .photo-card-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem; color: var(--muted);
+      text-align: center; padding: .6rem 0 .3rem;
+    }
+    .tape {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 24px;
+      background: rgba(248,224,160,.75);
+      border-radius: 2px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    }
+    /* floating stickers */
+    .float-sticker {
+      position: absolute;
+      font-size: 1.8rem;
+      animation: wobble 3s ease-in-out infinite;
+    }
+    .fs-1 { top: -20px; right: -15px; animation-delay: 0s; }
+    .fs-2 { bottom: 20px; left: -20px; animation-delay: .8s; }
+    .fs-3 { top: 40%; right: -30px; animation-delay: 1.4s; }
+    @keyframes wobble {
+      0%,100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    /* INTRO */
+    .intro-section {
+      position: relative; z-index: 1;
+      padding: 4rem 5rem;
+      background: var(--blush);
+      border-top: 2.5px dashed #e8c0c8;
+      border-bottom: 2.5px dashed #e8c0c8;
+    }
+    .tag-pill {
+      display: inline-block;
+      font-family: 'Caveat', cursive;
+      font-size: .95rem; font-weight: 600;
+      background: var(--lilac);
+      color: var(--violet);
+      padding: .25rem .9rem; border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+    .section-heading {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem; font-weight: 600;
+      margin-bottom: 1rem; color: var(--text);
+    }
+    .wavy-line {
+      width: 80px; height: 8px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='8'%3E%3Cpath d='M0 4 Q10 0 20 4 Q30 8 40 4 Q50 0 60 4 Q70 8 80 4' stroke='%23e8607a' stroke-width='2.5' fill='none'/%3E%3C/svg%3E") repeat-x center;
+      margin-bottom: 1.8rem;
+    }
+    p.body-text {
+      font-size: 1rem; line-height: 1.9;
+      color: #6a5878; max-width: 680px; margin-bottom: 1rem;
+    }
+
+    /* MEDIA */
+    .media-section {
+      position: relative; z-index: 1;
+      padding: 4rem 5rem;
+      background: var(--white);
+    }
+    .media-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; margin-top: 2rem;
+    }
+    .media-card {
+      background: var(--lilac);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 4px 4px 0 rgba(124,92,191,.2);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .media-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(124,92,191,.2); }
+    .media-card:nth-child(2) { background: var(--mint); box-shadow: 4px 4px 0 rgba(58,171,140,.2); }
+    .media-card:nth-child(2):hover { box-shadow: 6px 6px 0 rgba(58,171,140,.2); }
+    .media-card-header {
+      padding: .8rem 1.2rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--violet);
+      border-bottom: 2px dashed rgba(124,92,191,.25);
+    }
+    .media-card:nth-child(2) .media-card-header { color: var(--teal); border-color: rgba(58,171,140,.25); }
+    .media-card-body { padding: 1.2rem; }
+    .media-note { font-size: .82rem; color: var(--muted); margin-bottom: .8rem; font-style: italic; }
+    audio { width: 100%; accent-color: var(--rose); }
+    video { width: 100%; border-radius: 8px; }
+
+    /* EXT LINK */
+    .ext-section {
+      position: relative; z-index: 1;
+      padding: 2.5rem 5rem;
+      border-top: 2.5px dashed #e8d0e0;
+      background: var(--butter);
+    }
+    .ext-link {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      font-size: .95rem; color: var(--teal);
+      text-decoration: none;
+      border-bottom: 2.5px dashed var(--teal);
+      padding-bottom: 2px;
+      transition: color .2s;
+    }
+    .ext-link:hover { color: var(--violet); border-color: var(--violet); }
+
+    footer {
+      position: relative; z-index: 1;
+      background: var(--text);
+      color: rgba(255,255,255,.5);
+      text-align: center; padding: 2rem;
+      font-size: .82rem;
+    }
+    footer a { color: var(--blush); text-decoration: none; font-weight: 700; }
+
+    @keyframes popUp {
+      from { opacity: 0; transform: translateY(30px) scale(.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-deco { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem; min-height: auto; }
+      .intro-section, .media-section, .ext-section { padding: 3rem 1.5rem; }
+      .media-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">Ryzel & Kathlene's <span>World</span></span>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <span class="nav-deco">✨ welcome!</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="sticker">👋 hey there!</div>
+      <h1 class="hero-title">
+        Hi, We're<br>
+        <em>Ryzel June Jumao-as & Kathlene Manayon</em><br>
+    
+      </h1>
+      <p class="hero-desc">
+        1st year BSIT students, problem-solvers, and continuous learners.
+        This is our little corner of the internet — come explore!
+      </p>
+      <a href="about.html" class="btn-soft">Learn About Us →</a>
+    </div>
+
+    <div class="hero-visual">
+      <div class="photo-card">
+        <div class="tape"></div>
+        <img src="/img/ryzkath.jpg" alt="Profile photo"/>
+        <div class="photo-card-caption">that's us! ☀️</div>
+      </div>
+      <span class="float-sticker fs-1">🌸</span>
+      <span class="float-sticker fs-2">💻</span>
+      <span class="float-sticker fs-3">⭐</span>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro-section">
+    <span class="tag-pill">about this site</span>
+    <h2 class="section-heading">What's this place about?</h2>
+    <div class="wavy-line"></div>
+    <p class="body-text">
+      Welcome to our personal mini-website! This is a three-page site we built as part of our class project — but we've poured a little piece of ourselves into every corner. It's a space
+      where you can get to know us better, peek into our hobbies, and find out how to reach us.
+    </p>
+    <p class="body-text">
+      We believe websites should feel alive and personal, not cold and corporate. So we made ours warm,
+      colorful, and a little playful — just like us! Whether you're here because of school,
+      curiosity, or a happy accident, we're really glad you stopped by. 🌷
+    </p>
+  </section>
+
+  <!-- MEDIA -->
+  <div class="media-section">
+    <span class="tag-pill">🎵 media corner</span>
+    <h2 class="section-heading">Audio &amp; Video</h2>
+    <div class="media-grid">
+      <div class="media-card">
+        <div class="media-card-header">🎙 listen: home page explanation</div>
+        <div class="media-card-body">
+          <p class="media-note">A little audio walkthrough of this home page!</p>
+          <audio controls>
+            <source src="/audio/index audio. mp3" type="audio/mpeg"/>
+            Your browser doesn't support audio.
+          </audio>
+        </div>
+      </div>
+      <div class="media-card">
+        <div class="media-card-header">🎬 watch: featured activity</div>
+        <div class="media-card-body">
+          <p class="media-note">A video from one of our recent activity!</p>
+          <video controls>
+            <source src="/vid/Chapter 3.mp4" type="video/mp4"/>
+            Your browser doesn't support video.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXTERNAL LINK -->
+  <div class="ext-section">
+    <span class="tag-pill">🔗 check this out</span>
+    <p style="font-family:'Fraunces',serif;font-size:1.2rem;margin:1rem 0 .8rem;font-weight:600;">
+      A great resource for learning web development!
+    </p>
+    <a href="https://www.freecodecamp.org" target="_blank" rel="noopener" class="ext-link">
+      freeCodeCamp — Free Coding Lessons for Everyone ↗
+    </a>
+  </div>
+
+  <footer>
+    <p>Made with 💖 by Ryzel & Kathlene · 2026 &nbsp;&nbsp;
+      <a href="index.html">Home</a> &nbsp;·&nbsp;
+      <a href="about.html">About</a> &nbsp;·&nbsp;
+      <a href="contact.html">Contact</a>
+    </p>
+  </footer>
+
+</body>
+</html>

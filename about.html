@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Website Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300;1,600&family=Nunito:wght@300;400;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blush:#f7e0e0; --lilac:#e8e0f5; --mint:#daf0ea; --butter:#fdf4d3; --sky:#deeef8; --rose:#e8607a; --violet:#7c5cbf; --teal:#3aab8c; --text:#3a2e4a; --muted:#9a8eaa; --white:#fffdf9; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--mint); color: var(--text); min-height: 100vh; position: relative; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: 0; background-image: radial-gradient(circle, rgba(58,171,140,.1) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 3.5rem; background: var(--white); border-bottom: 2.5px dashed #c8e8e0; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; color: var(--rose); }
+    .nav-logo span { font-style: italic; color: var(--violet); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-family: 'Nunito', sans-serif; color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 700; padding: .4rem .9rem; border-radius: 100px; transition: all .22s; }
+    .nav-links a:hover, .nav-links a.active { background: var(--mint); color: var(--teal); }
+    .nav-deco { font-family: 'Caveat', cursive; font-size: 1rem; color: var(--rose); transform: rotate(-3deg); display: inline-block; }
+
+    /* PAGE HEADER */
+    .page-header {
+      position: relative; z-index: 1;
+      background: var(--lilac);
+      padding: 4rem 5rem 3rem;
+      border-bottom: 2.5px dashed #d0c0e8;
+      overflow: hidden;
+      animation: popUp .7s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .page-header::after {
+      content: '🌿';
+      position: absolute; right: 5rem; top: 50%; transform: translateY(-50%);
+      font-size: 8rem; opacity: .15; pointer-events: none;
+    }
+    .tag-pill { display: inline-block; font-family: 'Caveat', cursive; font-size: .95rem; font-weight: 600; background: rgba(255,255,255,.7); color: var(--violet); padding: .25rem .9rem; border-radius: 100px; margin-bottom: 1rem; }
+    .page-title { font-family: 'Fraunces', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 600; color: var(--text); line-height: 1.1; }
+    .page-title em { font-style: italic; color: var(--violet); }
+
+    /* HOBBY SPREAD */
+    .hobby-spread {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .hobby-img-col {
+      position: relative;
+      padding: 3.5rem 3rem 3.5rem 5rem;
+      background: var(--white);
+      border-right: 2.5px dashed #d0e8e0;
+    }
+    .photo-card {
+      position: relative; background: var(--white);
+      padding: 1rem 1rem .5rem;
+      box-shadow: 6px 6px 20px rgba(60,40,80,.1);
+      border-radius: 4px;
+      transform: rotate(-1.5deg);
+      transition: transform .3s;
+    }
+    .photo-card:hover { transform: rotate(0deg) scale(1.02); }
+    .photo-card img { width: 100%; height: 320px; object-fit: cover; border-radius: 2px; }
+    .photo-card-caption { font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--muted); text-align: center; padding: .5rem 0 .2rem; }
+    .tape { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 60px; height: 22px; background: rgba(248,224,160,.8); border-radius: 2px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+
+    .hobby-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: 'Nunito', sans-serif; font-size: .82rem; font-weight: 700;
+      padding: .4rem .9rem; border-radius: 100px;
+      transition: transform .2s;
+    }
+    .badge:hover { transform: scale(1.05); cursor: default; }
+    .b1 { background: var(--blush); color: var(--rose); }
+    .b2 { background: var(--lilac); color: var(--violet); }
+    .b3 { background: var(--mint); color: var(--teal); }
+    .b4 { background: var(--sky); color: #2a7ab0; }
+    .b5 { background: var(--butter); color: #b08020; }
+
+    .hobby-text-col {
+      padding: 3.5rem 5rem 3.5rem 3.5rem;
+      background: var(--mint);
+    }
+    .section-heading { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); }
+    .wavy-line { width: 80px; height: 8px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='8'%3E%3Cpath d='M0 4 Q10 0 20 4 Q30 8 40 4 Q50 0 60 4 Q70 8 80 4' stroke='%233aab8c' stroke-width='2.5' fill='none'/%3E%3C/svg%3E") repeat-x center; margin-bottom: 1.8rem; }
+    p.body-text { font-size: 1rem; line-height: 1.9; color: #5a6e68; margin-bottom: 1rem; }
+
+    /* FUN FACTS */
+    .fun-facts { margin-top: 2rem; }
+    .fun-fact {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem 1.2rem; margin-bottom: .7rem;
+      background: rgba(255,255,255,.65);
+      border-radius: 12px;
+      border-left: 3px solid var(--teal);
+    }
+    .ff-emoji { font-size: 1.3rem; margin-top: .1rem; }
+    .ff-text { font-size: .9rem; color: var(--text); line-height: 1.6; }
+    .ff-text strong { color: var(--teal); font-weight: 700; }
+
+    /* MEDIA */
+    .media-section { position: relative; z-index: 1; padding: 4rem 5rem; background: var(--white); border-top: 2.5px dashed #d0c0e8; }
+    .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+    .media-card { background: var(--sky); border-radius: 12px; overflow: hidden; box-shadow: 4px 4px 0 rgba(42,122,176,.15); transition: transform .2s, box-shadow .2s; }
+    .media-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(42,122,176,.15); }
+    .media-card:nth-child(2) { background: var(--butter); box-shadow: 4px 4px 0 rgba(176,128,32,.15); }
+    .media-card:nth-child(2):hover { box-shadow: 6px 6px 0 rgba(176,128,32,.15); }
+    .media-card-header { padding: .8rem 1.2rem; font-family: 'Caveat', cursive; font-size: 1.05rem; font-weight: 600; color: #2a7ab0; border-bottom: 2px dashed rgba(42,122,176,.2); }
+    .media-card:nth-child(2) .media-card-header { color: #b08020; border-color: rgba(176,128,32,.2); }
+    .media-card-body { padding: 1.2rem; }
+    .media-note { font-size: .82rem; color: var(--muted); margin-bottom: .8rem; font-style: italic; }
+    audio { width: 100%; accent-color: var(--rose); }
+    video { width: 100%; border-radius: 8px; }
+
+    .ext-section { position: relative; z-index: 1; padding: 2.5rem 5rem; border-top: 2.5px dashed #d0e8e0; background: var(--mint); }
+    .ext-link { display: inline-flex; align-items: center; gap: .6rem; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .95rem; color: var(--violet); text-decoration: none; border-bottom: 2.5px dashed var(--violet); padding-bottom: 2px; transition: color .2s; }
+    .ext-link:hover { color: var(--rose); border-color: var(--rose); }
+
+    footer { position: relative; z-index: 1; background: var(--text); color: rgba(255,255,255,.5); text-align: center; padding: 2rem; font-size: .82rem; }
+    footer a { color: var(--blush); text-decoration: none; font-weight: 700; }
+
+    @keyframes popUp { from { opacity: 0; transform: translateY(30px) scale(.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-deco { display: none; }
+      .page-header { padding: 3rem 1.5rem; }
+      .hobby-spread { grid-template-columns: 1fr; }
+      .hobby-img-col { padding: 2.5rem 1.5rem; border-right: none; border-bottom: 2.5px dashed #d0e8e0; }
+      .hobby-text-col { padding: 2.5rem 1.5rem; }
+      .media-section, .ext-section { padding: 3rem 1.5rem; }
+      .media-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">Ryzel & Kathlene's <span>World</span></span>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <span class="nav-deco">🌸 all about us!</span>
+  </nav>
+
+  <div class="page-header">
+    <span class="tag-pill">get to know us!</span>
+    <h1 class="page-title">Our Hobbies &amp; <em>Who Are We</em></h1>
+  </div>
+
+  <div class="hobby-spread">
+    <div class="hobby-img-col">
+      <div class="photo-card">
+        <div class="tape"></div>
+        <img src="/img/music.jpg" alt="Our hobby"/>
+        <div class="photo-card-caption">our happy place 💻🌱</div>
+      </div>
+
+    <div class="hobby-text-col">
+      <span class="tag-pill">✨ our passions</span>
+      <h2 class="section-heading">Things We Love!</h2>
+      <div class="wavy-line"></div>
+      <p class="body-text">
+        Our biggest hobby is definitely listening to music — there's something so magical about listening 
+        to music because it's like the soundtrack to life! We love discovering new artists and getting vibes from playlists that match our mood. It becomes our comfort, especially during busy or stressful days as students.
+      
+      </p>
+      <p class="body-text">
+        We also enjoy writing our thoughts, experiences, and even random ideas that come to our minds. It just helps us gain a deeper understanding of ourselves and express what we sometimes cannot say outoud. 🌟
+      </p>
+
+      <div class="fun-facts">
+        <div class="fun-fact">
+          <span class="ff-emoji">☕</span>
+          <p class="ff-text"><strong>Fun fact:</strong> We love visiting cute cafes.</p>
+        </div>
+        <div class="fun-fact">
+          <span class="ff-emoji">📚</span>
+          <p class="ff-text"><strong>Fun fact:</strong> Multitasking pros, juggling schoolwork and social lives.</p>
+        </div>
+        <div class="fun-fact">
+          <span class="ff-emoji">🎯</span>
+          <p class="ff-text"><strong>Goal:</strong> Find a role where purpose meets passion, and impact meets intention.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIA -->
+  <div class="media-section">
+    <span class="tag-pill">🎵 media corner</span>
+    <h2 class="section-heading">Audio &amp; Video</h2>
+    <div class="media-grid">
+      <div class="media-card">
+        <div class="media-card-header">🎙 listen: about page explanation</div>
+        <div class="media-card-body">
+          <p class="media-note">A quick audio intro to this about page!</p>
+          <audio controls><source src="/audio/about audio.mp3" type="audio/mpeg"/>Not supported.</audio>
+        </div>
+      </div>
+      <div class="media-card">
+        <div class="media-card-header">🎬 watch: sci-fi movie</div>
+        <div class="media-card-body">
+          <p class="media-note">One of all-time favorite sci-fi films!</p>
+          <video controls poster>
+            <source src="/vid/Movie.mp4" type="video/mp4"/>Not supported.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ext-section">
+    <span class="tag-pill">🔗 explore more</span>
+    <p style="font-family:'Fraunces',serif;font-size:1.2rem;margin:1rem 0 .8rem;font-weight:600;">Love sci-fi? Check this out!</p>
+    <a href="https://www.imdb.com/chart/top/?genres=sci-fi" target="_blank" rel="noopener" class="ext-link">
+      IMDB's Best Sci-Fi Movies Ever ↗
+    </a>
+  </div>
+
+  <footer>
+    <p>Made with 💖 by  Ryzel & Kathlene · 2026 &nbsp;&nbsp;
+      <a href="index.html">Home</a> &nbsp;·&nbsp;
+      <a href="about.html">About</a> &nbsp;·&nbsp;
+      <a href="contact.html">Contact</a>
+    </p>
+  </footer>
+</body>
+</html>
